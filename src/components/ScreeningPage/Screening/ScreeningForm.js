@@ -7,9 +7,9 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Collapse from '@material-ui/core/Collapse';
 
-export const defaultForm = { treatmentStartDate: '', screeningDate: '',onTreatment:false};
+export const defaultForm = { time: '', systolic: 0,dystolic:0,weight: 0,height:0};
 
-const HtsForm = ({ onChange, hts }) => {
+const ScreeningForm = ({ onChange, screening }) => {
   const [form, _setForm] = useState(defaultForm);
   const setForm = v => _setForm(prev => ({
     ...prev,
@@ -28,58 +28,81 @@ const HtsForm = ({ onChange, hts }) => {
 
   React.useEffect(() => { onChange(form); }, [form]);
 
-  React.useEffect(() => { setForm({ ...hts }); }, [hts]);
+  React.useEffect(() => { setForm({ ...screening }); }, [screening]);
 
   return (
     <>
-    <h1 ><Typography color='primary' >ADD HTS RECORD</Typography></h1>
+    <h1 ><Typography color='primary' >ADD SCREENING RECORD</Typography></h1>
     <br/>
        <FormLabel>Screening Date</FormLabel>
        <br/>
         <Grid item xs={12} sm={12}>
           <TextField
-            type='date'
+            type='time'
             variant='outlined'
             required={true}  
             fullWidth
-            value={form.screeningDate}
-            onChange={e => setForm({ screeningDate: e.target.value })}
+            value={form.time}
+            onChange={e => setForm({ time: e.target.value })}
           />
         </Grid>
         <br/>
         <Grid item xs={12} sm={12}>
-            <FormLabel>
-             On Treatment?
-            </FormLabel>
-            <Checkbox
-              name='treament'
-              checked={form.onTreatment}
-              onClick={e => onTreatment(e.target)}
-            ></Checkbox>
-            </Grid>
-            <br/>
-        <Collapse in={form.onTreatment}>    
-        <Grid item xs={12} sm={12}>
-          <FormLabel>Treatment Start Date</FormLabel>
           <TextField
-            type='date'
+            type='number'
             variant='outlined'
             required={true}  
             fullWidth
-            value={form.treatmentStartDate}
-            onChange={e => setForm({ treatmentStartDate: e.target.value })}
+            label="Systolic"
+            value={form.systolic}
+            onChange={e => setForm({ systolic: e.target.value })}
           />
-        </Grid>
-        </Collapse>
-       
+        </Grid>  
+        <br/> 
+        <Grid item xs={12} sm={12}>
+          <TextField
+            type='number'
+            variant='outlined'
+            required={true}  
+            fullWidth
+            label="Dystolic"
+            value={form.dystolic}
+            onChange={e => setForm({ dystolic: e.target.value })}
+          />
+        </Grid>  
+        <br/>  
+        <Grid item xs={12} sm={12}>
+          <TextField
+            type='number'
+            variant='outlined'
+            required={true}  
+            fullWidth
+            label="Weight"
+            value={form.weight}
+            onChange={e => setForm({ weight: e.target.value })}
+          />
+        </Grid>  
+        <br/> 
+        <br/>  
+        <Grid item xs={12} sm={12}>
+          <TextField
+            type='number'
+            variant='outlined'
+            required={true}  
+            fullWidth
+            label="Height"
+            value={form.height}
+            onChange={e => setForm({ height: e.target.value })}
+          />
+        </Grid>  
         <br/>
     </>
   );
 }
 
-HtsForm.propTypes = {
+ScreeningForm.propTypes = {
   onChange: PropTypes.func.isRequired,
-  hts: PropTypes.object,
+  screening: PropTypes.object,
 };
 
-export default HtsForm;
+export default ScreeningForm;

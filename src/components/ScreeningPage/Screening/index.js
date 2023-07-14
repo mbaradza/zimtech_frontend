@@ -9,15 +9,15 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import { useAppContext } from '../../../AppContext';
 import * as api from '../../../api/hts';
-import AddHtsForm from './AddHtsForm';
+import AddScreeningForm from './AddScreeningForm';
 import NoDataCard from '../../NoDataComponent';
-import HtsManagerForm from './HtsScreeningForm';
+import ScreeningManagerForm from './ScreeningForm';
 
 
-const Hts = () => {
+const Screening = () => {
   const { state: { viewMode } } = useAppContext();
   const [state, _setState] = React.useState({
-    htss: [],
+    screenings: [],
     loading: false,
     error: ''
   });
@@ -28,14 +28,14 @@ const Hts = () => {
   }));
 
 
-  const {htss} = state
+  const {screenings} = state
 
 React.useEffect(() => {
   (async () => {
     setState({ loading: true, });
     try {
-      const htss  = await api.getAll();
-      setState({ htss: htss || [], loading: false, });
+      const screenings  = await api.getAll();
+      setState({ screenings: screenings || [], loading: false, });
     } catch (e) {
       setState({loading: false, error: e})
     }
@@ -48,10 +48,10 @@ React.useEffect(() => {
         <CardHeader
           action={viewMode === 'view' ? null : (
             <>
-              <AddHtsForm updateState={setState} />
+              <AddScreeningForm updateState={setState} />
             </>
           )}
-          title="PATIENT HTS"
+          title="DIABETES HTS"
         />
          {htss.length<=0?
          (<NoDataCard />)
@@ -62,26 +62,28 @@ React.useEffect(() => {
             <TableHead>
               <TableRow>
                 <TableCell>Patient</TableCell>
-                <TableCell>Hts Screening Date</TableCell>
-                <TableCell>On Treatment</TableCell>
-                <TableCell>Treatment Start Date</TableCell> 
-                <TableCell>Result</TableCell>  
+                <TableCell>Screening Date</TableCell>
+                <TableCell>Blood Pressure</TableCell>
+                <TableCell>Blood Glucose</TableCell> 
+                <TableCell>Weight</TableCell> 
+                <TableCell>Height</TableCell>   
                 <TableCell></TableCell>
                 {viewMode === 'view' ? null : <TableCell align="right">Action</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
-              {htss.map((h, i) => {
+              {screenings.map((h, i) => {
                 return (
                   <TableRow key={`hts-${i}`}>
-                    <TableCell>{h.hts.firstName} &nbsp; {h.hts.lastName}</TableCell>
-                    <TableCell>{h.treatmentStartDate}</TableCell>
-                    <TableCell>{h.screeningDate}</TableCell>
-                    <TableCell>{h.htsResult}</TableCell>
+                    <TableCell>{h.patientHts.patient.firstName} &nbsp; {h.patientHts.patient.lastName}</TableCell>
+                    <TableCell>{h.time}</TableCell>
+                    <TableCell>{h.systolic}/{h.dystolic}</TableCell>
+                    <TableCell>{h.weight}</TableCell>
+                    <TableCell>{h.height}</TableCell>
                     {viewMode === 'view' ? null : (
                       <TableCell align="right">
-                        <HtsManagerForm
-                          hts={h}
+                        <ScreeningManagerForm
+                          screening={h}
                           updateState={setState}
                         />
                       </TableCell>
@@ -99,4 +101,4 @@ React.useEffect(() => {
   );
 };
 
-export default Hts;
+export default Screening;
