@@ -1,6 +1,6 @@
 {
-  "short_name": "ADT TIMETABLE",
-  "name": "Application to help schools with generating school timetables",
+  "short_name": "EHR PATIENT MANAGEMENT",
+  "name": "HELPS MONITOR PATIENTS",
   "icons": [
     {
       "src": "adt_timetable.png",
